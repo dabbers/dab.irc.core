@@ -18,7 +18,7 @@ var Target;
                 return new User_1.User(nick[0], ident_host[0], ident_host[1]);
             }
             else {
-                return new Server_1.Server(target);
+                return new Server_1.BaseServer(target);
             }
         }
     }

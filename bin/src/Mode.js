@@ -1,14 +1,15 @@
-var ModeType;
+"use strict";
 (function (ModeType) {
     ModeType[ModeType["User"] = 0] = "User";
     ModeType[ModeType["Channel"] = 1] = "Channel";
     ModeType[ModeType["UMode"] = 2] = "UMode";
-})(ModeType || (ModeType = {}));
-var ModeChangeType;
+})(exports.ModeType || (exports.ModeType = {}));
+var ModeType = exports.ModeType;
 (function (ModeChangeType) {
     ModeChangeType[ModeChangeType["Adding"] = 0] = "Adding";
     ModeChangeType[ModeChangeType["Removing"] = 1] = "Removing";
-})(ModeChangeType || (ModeChangeType = {}));
+})(exports.ModeChangeType || (exports.ModeChangeType = {}));
+var ModeChangeType = exports.ModeChangeType;
 var Mode = (function () {
     function Mode() {
     }
@@ -22,4 +23,5 @@ var Mode = (function () {
     });
     return Mode;
 }());
+exports.Mode = Mode;
 //# sourceMappingURL=Mode.js.map

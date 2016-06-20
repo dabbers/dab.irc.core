@@ -1,29 +1,29 @@
 "use strict";
-var Server = (function () {
-    function Server(host) {
+var BaseServer = (function () {
+    function BaseServer(host) {
         this.host = host;
     }
-    Server.prototype.toString = function () {
-        return "[" + this.display + " User]";
+    BaseServer.prototype.toString = function () {
+        return "[" + this.display + " BaseServer]";
     };
-    Server.prototype.clone = function () {
+    BaseServer.prototype.clone = function () {
         return this;
     };
-    Object.defineProperty(Server.prototype, "display", {
+    Object.defineProperty(BaseServer.prototype, "display", {
         get: function () {
             return this.host;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Server.prototype, "target", {
+    Object.defineProperty(BaseServer.prototype, "target", {
         get: function () {
             return this.host;
         },
         enumerable: true,
         configurable: true
     });
-    return Server;
+    return BaseServer;
 }());
-exports.Server = Server;
+exports.BaseServer = BaseServer;
 //# sourceMappingURL=Server.js.map
