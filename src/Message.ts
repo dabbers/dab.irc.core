@@ -39,7 +39,7 @@ export class Message implements ICloneable {
     }
 
     // Take a raw IRC line and do some basic parsing with it.
-    constructor(line:string | Message, channelPrefixes:string[] = ["#"]) {
+    constructor(line:string | Message, channelPrefixes:string[] = ["#", "&"]) {
         if (line instanceof Message) {
             this._tokenized  = line.tokenized;
             this._from       = line.from;
@@ -122,21 +122,21 @@ export class Message implements ICloneable {
     }
     
     // The string separated by spaces
-    private _tokenized: string[];
+    protected _tokenized: string[];
     // Who this message is from (Server or User)
-    private _from: Target.ITarget;
+    protected _from: Target.ITarget;
     // The command this message is (Notice, Privmsg, etc)
-    private _command: string;
+    protected _command: string;
     // The first word after the 2nd colon
-    private _firstWord: string;
+    protected _firstWord: string;
 
-    private _message: string;
+    protected _message: string;
 
     // Timestamp this message was received
-    private _timestamp: Date;
+    protected _timestamp: Date;
 
     // The full raw line
-    private _raw: string;
+    protected _raw: string;
 
-    private _messageTags: MessageTagDictionary = {};
+    protected _messageTags: MessageTagDictionary = {};
 }
