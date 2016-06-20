@@ -67,7 +67,7 @@ export class Message implements ICloneable {
                         // don't include =, -1 to make sure we don't include it
                         var key = tags[t].substr(0, ind - 1);
                         var val = tags[t].substr(ind + 1); 
-                        this.messageTags[key] = val;
+                        this.messageTags[key] = val.replace("\\:", ";").replace("\\s", " ").replace("\\r", "\r").replace("\\n","\n");
                     }
                     else {
                         this.messageTags[tags[t]] = "";
