@@ -1,5 +1,8 @@
 import { ICloneable } from './ICloneable';
 import { Target } from './ITarget';
+export interface MessageTagDictionary {
+    [key: string]: string;
+}
 export declare class Message implements ICloneable {
     tokenized: string[];
     from: Target.ITarget;
@@ -8,6 +11,7 @@ export declare class Message implements ICloneable {
     message: string;
     timestamp: Date;
     raw: string;
+    messageTags: MessageTagDictionary;
     constructor(line: string | Message, channelPrefixes?: string[]);
     clone(): ICloneable;
     toString(): string;
@@ -18,4 +22,5 @@ export declare class Message implements ICloneable {
     private _message;
     private _timestamp;
     private _raw;
+    private _messageTags;
 }

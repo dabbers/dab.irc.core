@@ -1,6 +1,10 @@
 import {ICloneable} from './ICloneable';
 import {Target} from './ITarget';
 
+export interface MessageTagDictionary {
+    [key: string] : string;
+}
+
 // A message object.
 export class Message implements ICloneable {
     // The string separated by spaces
@@ -30,6 +34,9 @@ export class Message implements ICloneable {
     get raw(): string {
         return this._raw;
     }
+    get messageTags() : MessageTagDictionary {
+        return this._messageTags;
+    }
 
     // Take a raw IRC line and do some basic parsing with it.
     constructor(line:string | Message, channelPrefixes:string[] = ["#"]) {
@@ -41,11 +48,33 @@ export class Message implements ICloneable {
             this._timestamp  = line.timestamp;
             this._raw        = line.raw;
             this._message    = line.message;
+            this._messageTags= line.messageTags;
         }
         else {
             this._tokenized = line.split(' ');
             this._raw = line;
             this._timestamp = new Date();
+
+            // Check for message-tags first
+            if (this.tokenized[0][0] == '@') {
+                // Remove the message tag portion of the message, and remove the leading @
+                var mt = this.tokenized.splice(0, 1)[0].substr(1);
+                var tags = mt.split(';');
+
+                for(var t in tags) {
+                    var ind = tags[t].indexOf("=");
+                    if (ind != -1) {
+                        // don't include =, -1 to make sure we don't include it
+                        var key = tags[t].substr(0, ind - 1);
+                        var val = tags[t].substr(ind + 1); 
+                        this.messageTags[key] = val;
+                    }
+                    else {
+                        this.messageTags[tags[t]] = "";
+                    }
+                }
+            }
+
             this._command = (
                 this.tokenized[0] == "PING" || this.tokenized[0] == "ERROR" 
                     ? this.tokenized[0] 
@@ -108,4 +137,6 @@ export class Message implements ICloneable {
 
     // The full raw line
     private _raw: string;
+
+    private _messageTags: MessageTagDictionary = {};
 }
