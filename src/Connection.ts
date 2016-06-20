@@ -18,7 +18,7 @@ class OutMessage {
     }
 }
 
-export class Connection implements ICloneable, IModule {
+export class Connection implements ICloneable, IModule<IConnectionContext> {
     private context:IConnectionContext;
 
     private socket : net.Socket | tls.ClearTextStream;
@@ -29,7 +29,8 @@ export class Connection implements ICloneable, IModule {
         }});
     private interval:number = 200;
     private backlog:string = "";
-        
+
+    // Like a default constructor 
     init(context : IConnectionContext) : void {
         this.context = context;
         context.connection = this;
@@ -54,6 +55,7 @@ export class Connection implements ICloneable, IModule {
         this.socket.on('error', () => { this.connectionEstablished = false; } );
     }
 
+    // Like a copy constructor
     resume(state : any) : void {
         this.socket = state.socket;
         this.context = state.context;
@@ -61,6 +63,7 @@ export class Connection implements ICloneable, IModule {
         this.connectionEstablished = state.connectionEstablished;
     }
 
+    // Like a destructor, but returns state
     uninit() : any {
         return {
             socket: this.socket,

@@ -1,6 +1,6 @@
 import {Channel} from './Channel';
 import {User} from './User';
-import {Server} from './Server';
+import {BaseServer} from './Server';
 import {ICloneable} from './ICloneable';
 
 export namespace Target {
@@ -27,7 +27,7 @@ export namespace Target {
                 return new User(nick[0], ident_host[0], ident_host[1]);
             }
             else {
-                return new Server(target);
+                return new BaseServer(target);
             }
             
         }

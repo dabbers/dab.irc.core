@@ -1,14 +1,14 @@
-enum ModeType {
+export enum ModeType {
     User,
     Channel,
     UMode
 }
-enum ModeChangeType {
+export enum ModeChangeType {
     Adding,
     Removing
 }
 
-class Mode {
+export class Mode {
     character: string;
     type: ModeType;
     change: ModeChangeType;

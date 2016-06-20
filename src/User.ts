@@ -1,5 +1,6 @@
 import {ICloneable} from './ICloneable';
 import {Target} from './ITarget';
+import {Mode} from './Mode';
 
 export class User implements Target.ITarget {
     

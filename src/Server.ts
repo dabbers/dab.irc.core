@@ -1,6 +1,6 @@
 import {Target} from './ITarget';
 
-export class Server implements Target.ITarget {
+export class BaseServer implements Target.ITarget {
     
     host: string;
     constructor(host:string) {
@@ -8,7 +8,7 @@ export class Server implements Target.ITarget {
     }
 
     toString() :string {
-        return "[" + this.display + " User]";
+        return "[" + this.display + " BaseServer]";
     }
     
     clone() : Target.ITarget {

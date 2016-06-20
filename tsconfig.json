@@ -9,9 +9,11 @@
         "sourceMap": true,
         "moduleResolution": "node",
         "target": "es5",
-        "noImplicitReturns": true
+        "noImplicitReturns": true,
+        "declaration": true
     },
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "bin"
     ]
 }

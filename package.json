@@ -2,7 +2,8 @@
   "name": "dab.irc.core",
   "version": "1.0.0",
   "description": "Core objects for the dab.irc library",
-  "main": "index.js",
+  "typings": "bin/src/",
+  "main": "bin/src/index.js",
   "directories": {
     "test": "test"
   },
