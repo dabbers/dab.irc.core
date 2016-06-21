@@ -1,6 +1,6 @@
 import {Channel} from './Channel';
 import {User} from './User';
-import {BaseServer} from './Server';
+import {BaseServer} from './BaseServer';
 import {ICloneable} from './ICloneable';
 
 export namespace Target {

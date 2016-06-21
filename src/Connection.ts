@@ -19,16 +19,21 @@ class OutMessage {
 }
 
 export class Connection implements ICloneable, IModule<IConnectionContext> {
-    private context:IConnectionContext;
-
-    private socket : net.Socket | tls.ClearTextStream;
-    private connectionEstablished : boolean = false;
-    private queue = new PriorityQueue({
-        comparator: function(a : OutMessage, b : OutMessage) { 
-            return a.timestamp-b.timestamp;
-        }});
-    private interval:number = 200;
-    private backlog:string = "";
+    get host() :string { 
+        return this.context.host;
+    }
+    get port() :number { 
+        return this.context.port;
+    }
+    get ssl() :boolean { 
+        return this.context.ssl;
+    }
+    get display() :string {
+        return this.toString();
+    }
+    get connected() :boolean {
+        return this.connectionEstablished;
+    }
 
     // Like a default constructor 
     init(context : IConnectionContext) : void {
@@ -36,18 +41,11 @@ export class Connection implements ICloneable, IModule<IConnectionContext> {
         context.connection = this;
 
         var connectionEstablished = () => {
-             this.connectionEstablished = true; 
-             
-             this.raw("NICK " + this.context.me.nick);
-             this.raw("USER " + this.context.me.ident + " 8 * :" + this.context.me.name);
+             this.connectionEstablished = true;
+             this.context.connectionEstablishedCallback(this);
         };
 
-        if (context.ssl) {
-            this.socket = tls.connect(context.port, context.host, {rejectUnauthorized: context.rejectUnauthedCerts}, connectionEstablished);
-        }
-        else {
-            this.socket = net.createConnection(context.port, context.host, connectionEstablished);            
-        }
+        this.socket = context.createConnection(connectionEstablished);
 
         this.socket.setEncoding('utf8');
         this.socket.on('data', (d:string) => this.onData.apply(this, [d]));
@@ -138,14 +136,6 @@ export class Connection implements ICloneable, IModule<IConnectionContext> {
 
     }
 
-    private raw(msg:string) {
-        
-        if (this.context.logSentMessages) console.log("=> ", msg);
-
-        this.socket.write(msg + "\r\n");
-    }
-
-
     clone() : ICloneable {
         return this;
     }
@@ -154,19 +144,21 @@ export class Connection implements ICloneable, IModule<IConnectionContext> {
         return "[" + this.context.host + ":" + (this.context.ssl ? "+" : "") + this.context.port.toString() +" Connection]";
     }
 
-    get host() :string { 
-        return this.context.host;
+    private raw(msg:string) {
+        
+        if (this.context.logSentMessages) console.log("=> ", msg);
+
+        this.socket.write(msg + "\r\n");
     }
-    get port() :number { 
-        return this.context.port;
-    }
-    get ssl() :boolean { 
-        return this.context.ssl;
-    }
-    get display() :string {
-        return this.toString();
-    }
-    get connected() :boolean {
-        return this.connectionEstablished;
-    }
+
+    private context:IConnectionContext;
+
+    private socket : net.Socket | tls.ClearTextStream;
+    private connectionEstablished : boolean = false;
+    private queue = new PriorityQueue({
+        comparator: function(a : OutMessage, b : OutMessage) { 
+            return a.timestamp-b.timestamp;
+        }});
+    private interval:number = 200;
+    private backlog:string = "";
 }

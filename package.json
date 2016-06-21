@@ -8,8 +8,8 @@
     "test": "test"
   },
   "scripts": {
-    "start":"node bin\\sample.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node bin\\sample.js",
+    "test": "node bin\\test\\index.js"
   },
   "keywords": [
     "dab",
@@ -20,6 +20,7 @@
   "author": "dab",
   "license": "MIT",
   "dependencies": {
-    "js-priority-queue": "^0.1.5"
+    "js-priority-queue": "^0.1.5",
+    "tsunit.external": "^2.0.1"
   }
 }

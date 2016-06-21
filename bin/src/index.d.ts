@@ -7,6 +7,6 @@ export * from './ModuleHandler';
 export * from './ITarget';
 export * from './Message';
 export * from './Mode';
-export * from './Server';
+export * from './BaseServer';
 export * from './Topic';
 export * from './User';

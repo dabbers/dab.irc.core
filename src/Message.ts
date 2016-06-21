@@ -7,6 +7,7 @@ export interface MessageTagDictionary {
 
 // A message object.
 export class Message implements ICloneable {
+
     // The string separated by spaces
     get tokenized(): string[] {
         return this._tokenized;
@@ -37,7 +38,7 @@ export class Message implements ICloneable {
     get messageTags() : MessageTagDictionary {
         return this._messageTags;
     }
-
+    
     // Take a raw IRC line and do some basic parsing with it.
     constructor(line:string | Message, channelPrefixes:string[] = ["#", "&"]) {
         if (line instanceof Message) {
@@ -55,18 +56,23 @@ export class Message implements ICloneable {
             this._raw = line;
             this._timestamp = new Date();
 
+            var userStart = 0;
+
             // Check for message-tags first
-            if (this.tokenized[0][0] == '@') {
+            if (this.tokenized[userStart][0] == '@') {
+                userStart = 1;
+
                 // Remove the message tag portion of the message, and remove the leading @
-                var mt = this.tokenized.splice(0, 1)[0].substr(1);
+                var mt = this.tokenized[0].substr(1);
                 var tags = mt.split(';');
 
                 for(var t in tags) {
                     var ind = tags[t].indexOf("=");
                     if (ind != -1) {
                         // don't include =, -1 to make sure we don't include it
-                        var key = tags[t].substr(0, ind - 1);
+                        var key = tags[t].substr(0, ind);
                         var val = tags[t].substr(ind + 1); 
+
                         this.messageTags[key] = val.replace("\\:", ";").replace("\\s", " ").replace("\\r", "\r").replace("\\n","\n");
                     }
                     else {
@@ -76,16 +82,16 @@ export class Message implements ICloneable {
             }
 
             this._command = (
-                this.tokenized[0] == "PING" || this.tokenized[0] == "ERROR" 
-                    ? this.tokenized[0] 
-                    : this.tokenized[1]
+                this.tokenized[userStart] == "PING" || this.tokenized[userStart] == "ERROR" 
+                    ? this.tokenized[userStart] 
+                    : this.tokenized[userStart + 1]
             );
 
             var temp = "";
 
             // find the first word after the 2nd occurence of :
             // (all messages begin with : as the from user)
-            for(var i = 1; i < this.tokenized.length; i++) {
+            for(var i = userStart + 1; i < this.tokenized.length; i++) {
                 if (this.firstWord) {
                     temp += " " + this.tokenized[i];
                 }
@@ -97,11 +103,14 @@ export class Message implements ICloneable {
             }
 
             if (!this.firstWord) {
-                this._firstWord = this.tokenized[0];
-                this._message = line.substr(1);
+                this._firstWord = "";
+                this._message = "";
             } 
+            else {
+                this._message = temp;
+            }
 
-            this._from = Target.ResolveTarget(this.tokenized[0], channelPrefixes);
+            this._from = Target.ResolveTarget(this.tokenized[userStart], channelPrefixes);
         }
     }
     clone() : ICloneable {
@@ -139,4 +148,5 @@ export class Message implements ICloneable {
     protected _raw: string;
 
     protected _messageTags: MessageTagDictionary = {};
+
 }

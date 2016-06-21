@@ -1,7 +1,7 @@
 "use strict";
 var Channel_1 = require('./Channel');
 var User_1 = require('./User');
-var Server_1 = require('./Server');
+var BaseServer_1 = require('./BaseServer');
 var Target;
 (function (Target) {
     function ResolveTarget(target, channelPrefixes) {
@@ -18,7 +18,7 @@ var Target;
                 return new User_1.User(nick[0], ident_host[0], ident_host[1]);
             }
             else {
-                return new Server_1.BaseServer(target);
+                return new BaseServer_1.BaseServer(target);
             }
         }
     }

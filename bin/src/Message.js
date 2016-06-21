@@ -2,7 +2,7 @@
 var ITarget_1 = require('./ITarget');
 var Message = (function () {
     function Message(line, channelPrefixes) {
-        if (channelPrefixes === void 0) { channelPrefixes = ["#"]; }
+        if (channelPrefixes === void 0) { channelPrefixes = ["#", "&"]; }
         this._messageTags = {};
         if (line instanceof Message) {
             this._tokenized = line.tokenized;
@@ -18,26 +18,28 @@ var Message = (function () {
             this._tokenized = line.split(' ');
             this._raw = line;
             this._timestamp = new Date();
-            if (this.tokenized[0][0] == '@') {
-                var mt = this.tokenized.splice(0, 1)[0].substr(1);
+            var userStart = 0;
+            if (this.tokenized[userStart][0] == '@') {
+                userStart = 1;
+                var mt = this.tokenized[0].substr(1);
                 var tags = mt.split(';');
                 for (var t in tags) {
                     var ind = tags[t].indexOf("=");
                     if (ind != -1) {
-                        var key = tags[t].substr(0, ind - 1);
+                        var key = tags[t].substr(0, ind);
                         var val = tags[t].substr(ind + 1);
-                        this.messageTags[key] = val;
+                        this.messageTags[key] = val.replace("\\:", ";").replace("\\s", " ").replace("\\r", "\r").replace("\\n", "\n");
                     }
                     else {
                         this.messageTags[tags[t]] = "";
                     }
                 }
             }
-            this._command = (this.tokenized[0] == "PING" || this.tokenized[0] == "ERROR"
-                ? this.tokenized[0]
-                : this.tokenized[1]);
+            this._command = (this.tokenized[userStart] == "PING" || this.tokenized[userStart] == "ERROR"
+                ? this.tokenized[userStart]
+                : this.tokenized[userStart + 1]);
             var temp = "";
-            for (var i = 1; i < this.tokenized.length; i++) {
+            for (var i = userStart + 1; i < this.tokenized.length; i++) {
                 if (this.firstWord) {
                     temp += " " + this.tokenized[i];
                 }
@@ -47,10 +49,13 @@ var Message = (function () {
                 }
             }
             if (!this.firstWord) {
-                this._firstWord = this.tokenized[0];
+                this._firstWord = this.tokenized[userStart];
                 this._message = line.substr(1);
             }
-            this._from = ITarget_1.Target.ResolveTarget(this.tokenized[0], channelPrefixes);
+            else {
+                this._message = temp;
+            }
+            this._from = ITarget_1.Target.ResolveTarget(this.tokenized[userStart], channelPrefixes);
         }
     }
     Object.defineProperty(Message.prototype, "tokenized", {

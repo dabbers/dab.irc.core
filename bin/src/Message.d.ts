@@ -15,12 +15,12 @@ export declare class Message implements ICloneable {
     constructor(line: string | Message, channelPrefixes?: string[]);
     clone(): ICloneable;
     toString(): string;
-    private _tokenized;
-    private _from;
-    private _command;
-    private _firstWord;
-    private _message;
-    private _timestamp;
-    private _raw;
-    private _messageTags;
+    protected _tokenized: string[];
+    protected _from: Target.ITarget;
+    protected _command: string;
+    protected _firstWord: string;
+    protected _message: string;
+    protected _timestamp: Date;
+    protected _raw: string;
+    protected _messageTags: MessageTagDictionary;
 }

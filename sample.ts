@@ -1,3 +1,6 @@
+import net = require('net');
+import tls = require('tls');
+
 import {Connection} from './src/Connection';
 import {IConnectionContext} from './src/IConnectionContext';
 import {Message} from './src/Message';
@@ -28,7 +31,19 @@ class SampleIRCContext implements IConnectionContext {
         }
     };
 
-    
+    createConnection(cb:() => any): net.Socket | tls.ClearTextStream {
+        if (this.ssl) {
+            return tls.connect(this.port, this.host, {rejectUnauthorized: this.rejectUnauthedCerts}, cb);
+        }
+        else {
+            return net.createConnection(this.port, this.host, cb);            
+        }
+    }
+
+    connectionEstablishedCallback: (c:Connection) => any = (c:Connection) => {  
+        c.write("NICK " + this.me.nick);
+        c.write("USER " + this.me.ident + " 8 * :" + this.me.name);
+    }
 
     logSentMessages: boolean;
     logReceivedMessages: boolean;

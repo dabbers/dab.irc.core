@@ -1,5 +1,5 @@
 export enum ModeType {
-    User,
+    ChannelUser,
     Channel,
     UMode
 }

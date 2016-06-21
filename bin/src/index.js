@@ -8,7 +8,7 @@ __export(require('./ModuleHandler'));
 __export(require('./ITarget'));
 __export(require('./Message'));
 __export(require('./Mode'));
-__export(require('./Server'));
+__export(require('./BaseServer'));
 __export(require('./Topic'));
 __export(require('./User'));
 //# sourceMappingURL=index.js.map
