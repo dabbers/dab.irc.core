@@ -20,8 +20,7 @@ var Message = (function () {
             this._timestamp = new Date();
             var userStart = 0;
             if (this.tokenized[userStart][0] == '@') {
-                userStart = 1;
-                var mt = this.tokenized[0].substr(1);
+                var mt = this._tokenized.splice(0, 1)[0].substr(1);
                 var tags = mt.split(';');
                 for (var t in tags) {
                     var ind = tags[t].indexOf("=");
@@ -49,8 +48,8 @@ var Message = (function () {
                 }
             }
             if (!this.firstWord) {
-                this._firstWord = this.tokenized[userStart];
-                this._message = line.substr(1);
+                this._firstWord = "";
+                this._message = "";
             }
             else {
                 this._message = temp;

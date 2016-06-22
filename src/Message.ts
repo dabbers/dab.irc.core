@@ -60,10 +60,8 @@ export class Message implements ICloneable {
 
             // Check for message-tags first
             if (this.tokenized[userStart][0] == '@') {
-                userStart = 1;
-
                 // Remove the message tag portion of the message, and remove the leading @
-                var mt = this.tokenized[0].substr(1);
+                var mt = this._tokenized.splice(0,1)[0].substr(1);
                 var tags = mt.split(';');
 
                 for(var t in tags) {

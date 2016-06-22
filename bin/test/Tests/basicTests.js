@@ -41,6 +41,7 @@ var BasicTests = (function (_super) {
     BasicTests.prototype.privmsgMessageTagsTestSimple = function () {
         var m = new Core.Message("@a=b;c;test.example.com/d=f :irc.example.com PRIVMSG #channel :Hello world");
         this.areIdentical("PRIVMSG", m.command);
+        this.areIdentical("#channel", m.tokenized[2]);
         this.areIdentical("irc.example.com", m.from.target);
         this.areIdentical("irc.example.com", m.from.display);
         this.isTrue(m.from instanceof Core.BaseServer, "from should be from server");

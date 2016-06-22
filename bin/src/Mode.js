@@ -1,6 +1,6 @@
 "use strict";
 (function (ModeType) {
-    ModeType[ModeType["User"] = 0] = "User";
+    ModeType[ModeType["ChannelUser"] = 0] = "ChannelUser";
     ModeType[ModeType["Channel"] = 1] = "Channel";
     ModeType[ModeType["UMode"] = 2] = "UMode";
 })(exports.ModeType || (exports.ModeType = {}));
