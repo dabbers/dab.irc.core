@@ -3,6 +3,7 @@ import {User} from './User';
 import {Message} from './Message';
 import net = require('net');
 import tls = require('tls');
+import {ISocket} from './ISocket';
 
 export interface IConnectionContext {
     connection: Connection;
@@ -15,7 +16,7 @@ export interface IConnectionContext {
 
     dataCallback: (d: Message) => any;
 
-    createConnection(cb:() => any): net.Socket | tls.ClearTextStream;
+    createConnection(cb:() => any): ISocket;
 
     connectionEstablishedCallback: (c: Connection) => any;
     

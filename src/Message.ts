@@ -80,7 +80,7 @@ export class Message implements ICloneable {
             }
 
             this._command = (
-                this.tokenized[userStart] == "PING" || this.tokenized[userStart] == "ERROR" 
+                this.tokenized[userStart] == "PING" || this.tokenized[userStart] == "ERROR" || this.tokenized[userStart] == "PONG"
                     ? this.tokenized[userStart] 
                     : this.tokenized[userStart + 1]
             );

@@ -5,6 +5,7 @@ import {IConnectionContext} from './IConnectionContext';
 import {IModule} from './IModule';
 import {ICloneable} from './ICloneable';
 import {Message} from './Message';
+import {ISocket} from './ISocket';
 
 var PriorityQueue = require('js-priority-queue');
 
@@ -75,7 +76,7 @@ export class Connection implements ICloneable, IModule<IConnectionContext> {
         
         if (this.connectionEstablished) {
 
-            this.socket.end();
+            this.socket.disconnect();
         }
     }
 
@@ -153,7 +154,7 @@ export class Connection implements ICloneable, IModule<IConnectionContext> {
 
     private context:IConnectionContext;
 
-    private socket : net.Socket | tls.ClearTextStream;
+    private socket : ISocket;
     private connectionEstablished : boolean = false;
     private queue = new PriorityQueue({
         comparator: function(a : OutMessage, b : OutMessage) { 

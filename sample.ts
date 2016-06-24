@@ -5,6 +5,8 @@ import {Connection} from './src/Connection';
 import {IConnectionContext} from './src/IConnectionContext';
 import {Message} from './src/Message';
 import {User} from './src/User';
+import {ISocket} from './src/ISocket';
+import {NodeSocket} from './src/NodeSocket';
 
 class SampleIRCContext implements IConnectionContext {
     connection: Connection;
@@ -31,12 +33,12 @@ class SampleIRCContext implements IConnectionContext {
         }
     };
 
-    createConnection(cb:() => any): net.Socket | tls.ClearTextStream {
+    createConnection(cb:() => any): ISocket {
         if (this.ssl) {
-            return tls.connect(this.port, this.host, {rejectUnauthorized: this.rejectUnauthedCerts}, cb);
+            return new NodeSocket(tls.connect(this.port, this.host, {rejectUnauthorized: this.rejectUnauthedCerts}, cb));
         }
         else {
-            return net.createConnection(this.port, this.host, cb);            
+            return new NodeSocket(net.createConnection(this.port, this.host, cb));            
         }
     }
 

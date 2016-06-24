@@ -84,7 +84,7 @@ var Connection = (function () {
     };
     Connection.prototype.disconnect = function () {
         if (this.connectionEstablished) {
-            this.socket.end();
+            this.socket.disconnect();
         }
     };
     Connection.prototype.onData = function (data) {

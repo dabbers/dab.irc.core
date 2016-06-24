@@ -3,6 +3,7 @@ var net = require('net');
 var tls = require('tls');
 var Connection_1 = require('./src/Connection');
 var User_1 = require('./src/User');
+var NodeSocket_1 = require('./src/NodeSocket');
 var SampleIRCContext = (function () {
     function SampleIRCContext() {
         var _this = this;
@@ -30,10 +31,10 @@ var SampleIRCContext = (function () {
     }
     SampleIRCContext.prototype.createConnection = function (cb) {
         if (this.ssl) {
-            return tls.connect(this.port, this.host, { rejectUnauthorized: this.rejectUnauthedCerts }, cb);
+            return new NodeSocket_1.NodeSocket(tls.connect(this.port, this.host, { rejectUnauthorized: this.rejectUnauthedCerts }, cb));
         }
         else {
-            return net.createConnection(this.port, this.host, cb);
+            return new NodeSocket_1.NodeSocket(net.createConnection(this.port, this.host, cb));
         }
     };
     return SampleIRCContext;
