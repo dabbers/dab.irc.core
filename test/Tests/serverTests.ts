@@ -9,10 +9,12 @@ class testSocket implements Core.ISocket {
     }
 
     on(event: string, cb : Function) : void {
-        this.callback = cb;
+        if (event == "data")
+            this.callback = cb;
     }
 
     write(data:  string) : void {
+        console.log(this.callback, data);
         this.callback(":user WROTE " + data + "\r\n");
     }
     
@@ -34,6 +36,9 @@ class SampleIRCContext implements Core.IConnectionContext {
     rejectUnauthedCerts: boolean = false;
 
     socket : testSocket;
+
+    onConnect : () => any;
+
     constructor() {
         this.me.name = "Real Name";
     }
@@ -46,6 +51,7 @@ class SampleIRCContext implements Core.IConnectionContext {
 
     createConnection(cb:() => any): Core.ISocket {
         this.socket = new testSocket();
+        this.onConnect = cb;
         return this.socket;
     }
 
@@ -62,17 +68,18 @@ export class ServerTests extends tsUnit.TestClass {
     privmsgTestSimple() {
         var data = ":servr 001 badderz :Welcome to the Orbital Link IRC Network badderz!baditp@216.244.78.186\r\n" +
             ":servr 002 badderz :Your host is servr, running version Unreal3.2.10.5\r\n" +
-            ":servr 003 badderz :This server was created Sat Sep 12 2015 at 04:46:47 EDT" + 
-            ":servr 004 badderz navi.orbital.link Unreal3.2.10.5 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ" + 
-            ":servr 005 badderz CMDS=MAXCHANNELS=60 CHANLIMIT=#:60 MAXLIST=b:60,e:60,I:60 :are supported by this server" + 
-            ":servr 005 badderz CHANTYPES=# PREFIX=(qaohv)~&@%+ NETWORK=Orbital-Link CASEMAPPING=ascii EXTBAN=~,qjncrRa :are supported by this server" + 
+            ":servr 003 badderz :This server was created Sat Sep 12 2015 at 04:46:47 EDT\r\n" + 
+            ":servr 004 badderz navi.orbital.link Unreal3.2.10.5 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ\r\n" + 
+            ":servr 005 badderz CMDS=MAXCHANNELS=60 CHANLIMIT=#:60 MAXLIST=b:60,e:60,I:60 :are supported by this server\r\n" + 
+            ":servr 005 badderz CHANTYPES=# PREFIX=(qaohv)~&@%+ NETWORK=Orbital-Link CASEMAPPING=ascii EXTBAN=~,qjncrRa :are supported by this server\r\n" + 
             ";";
 
         var ctx = new SampleIRCContext();
         var connection = new Core.Connection().init(ctx);     
+        ctx.onConnect();
 
-        ctx.socket.callback(data);   
-        
+        ctx.socket.callback(data);
+
         this.isTruthy(ctx.commandsFound["001"], "Didn't find 001");
         this.areIdentical(1, ctx.commandsFound["001"]);
         
@@ -86,7 +93,7 @@ export class ServerTests extends tsUnit.TestClass {
         this.areIdentical(1, ctx.commandsFound["004"]);
         
         this.isTruthy(ctx.commandsFound["005"], "Didn't find 005");
-        this.areIdentical(3, ctx.commandsFound["005"]);
+        this.areIdentical(2, ctx.commandsFound["005"]);
         
         this.isTruthy(ctx.commandsFound["WROTE"], "Didn't find WROTE");
         this.areIdentical(2, ctx.commandsFound["WROTE"]);
