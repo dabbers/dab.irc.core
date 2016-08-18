@@ -31,6 +31,6 @@ export class User implements Target.ITarget {
     }
 
     get display() : string {
-        return this.nick + "!" + this.ident + "@" + this.host;
+        return this.nick + (this.ident ? "!" + this.ident + "@" + this.host : "");
     }
 }

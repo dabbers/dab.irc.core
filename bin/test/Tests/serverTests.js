@@ -54,18 +54,16 @@ var ServerTests = (function (_super) {
         _super.apply(this, arguments);
     }
     ServerTests.prototype.privmsgTestSimple = function () {
-        var data = ":servr 001 badderz :Welcome to the Orbital Link IRC Network badderz!baditp@216.244.78.186\r\n" +
-            ":servr 002 badderz :Your host is servr, running version Unreal3.2.10.5\r\n" +
-            ":servr 003 badderz :This server was created Sat Sep 12 2015 at 04:46:47 EDT\r\n" +
-            ":servr 004 badderz navi.orbital.link Unreal3.2.10.5 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ\r\n" +
-            ":servr 005 badderz CMDS=MAXCHANNELS=60 CHANLIMIT=#:60 MAXLIST=b:60,e:60,I:60 :are supported by this server\r\n" +
-            ":servr 005 badderz CHANTYPES=# PREFIX=(qaohv)~&@%+ NETWORK=Orbital-Link CASEMAPPING=ascii EXTBAN=~,qjncrRa :are supported by this server\r\n" +
-            ";";
+        var data = ":servr 001 dabirc :Welcome to the Orbital Link IRC Network dabirc!baditp@127.0.0.0\r\n" +
+            ":servr 002 dabirc :Your host is servr, running version Unreal3.2.10.5\r\n" +
+            ":servr 003 dabirc :This server was created Sat Sep 12 2015 at 04:46:47 EDT\r\n" +
+            ":servr 004 dabirc navi.orbital.link Unreal3.2.10.5 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ\r\n" +
+            ":servr 005 dabirc CMDS=MAXCHANNELS=60 CHANLIMIT=#:60 MAXLIST=b:60,e:60,I:60 :are supported by this server\r\n" +
+            ":servr 005 dabirc CHANTYPES=# PREFIX=(qaohv)~&@%+ NETWORK=Orbital-Link CASEMAPPING=ascii EXTBAN=~,qjncrRa :are supported by this server\r\n";
         var ctx = new SampleIRCContext();
         var connection = new Core.Connection().init(ctx);
         ctx.onConnect();
         ctx.socket.callback(data);
-        console.log(Object.keys(ctx.commandsFound));
         this.isTruthy(ctx.commandsFound["001"], "Didn't find 001");
         this.areIdentical(1, ctx.commandsFound["001"]);
         this.isTruthy(ctx.commandsFound["002"], "Didn't find 002");

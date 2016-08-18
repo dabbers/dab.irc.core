@@ -1,6 +1,8 @@
 "use strict";
 var Channel = (function () {
     function Channel(display) {
+        if (display[0] == ':')
+            display = display.substr(1);
         this.display = display;
     }
     Channel.prototype.toString = function () {

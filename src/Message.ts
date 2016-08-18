@@ -56,20 +56,20 @@ export class Message implements ICloneable {
             this._raw = line;
             this._timestamp = new Date();
 
-            var userStart = 0;
+            let userStart = 0;
 
             // Check for message-tags first
             if (this.tokenized[userStart][0] == '@') {
                 // Remove the message tag portion of the message, and remove the leading @
-                var mt = this._tokenized.splice(0,1)[0].substr(1);
-                var tags = mt.split(';');
+                let mt = this._tokenized.splice(0,1)[0].substr(1);
+                let tags = mt.split(';');
 
-                for(var t in tags) {
-                    var ind = tags[t].indexOf("=");
+                for(let t in tags) {
+                    let ind = tags[t].indexOf("=");
                     if (ind != -1) {
                         // don't include =, -1 to make sure we don't include it
-                        var key = tags[t].substr(0, ind);
-                        var val = tags[t].substr(ind + 1); 
+                        let key = tags[t].substr(0, ind);
+                        let val = tags[t].substr(ind + 1); 
 
                         this.messageTags[key] = val.replace("\\:", ";").replace("\\s", " ").replace("\\r", "\r").replace("\\n","\n");
                     }
@@ -85,11 +85,11 @@ export class Message implements ICloneable {
                     : this.tokenized[userStart + 1]
             );
 
-            var temp = "";
+            let temp = "";
 
             // find the first word after the 2nd occurence of :
             // (all messages begin with : as the from user)
-            for(var i = userStart + 1; i < this.tokenized.length; i++) {
+            for(let i = userStart + 1; i < this.tokenized.length; i++) {
                 if (this.firstWord) {
                     temp += " " + this.tokenized[i];
                 }
@@ -112,7 +112,7 @@ export class Message implements ICloneable {
         }
     }
     clone() : ICloneable {
-        var cloneObj:Message = new (this.constructor());
+        let cloneObj:Message = new (this.constructor());
         
         cloneObj.tokenized = JSON.parse(JSON.stringify(this.tokenized));
         cloneObj.from =  this.from.clone();   

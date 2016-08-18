@@ -9,8 +9,13 @@ import {IModule} from './IModule';
         [name: string] : any;
     }
 
+    export interface IModuleHandler<Ctx> {
+        load(name: string) : IModuleHandler<Ctx>;
+        unload(name: string, persist: boolean) : IModuleHandler<Ctx>;
 
-    export class ModuleHandler<Ctx> {
+    }
+
+    /*export class ModuleHandler<Ctx> implements IModuleHandler<Ctx> {
 
         constructor(context: Ctx) {
             this.context = context;
@@ -44,5 +49,5 @@ import {IModule} from './IModule';
         private modules : ModuleDictionary<Ctx> = {};
         private moduleStates : StateDictionary = {};
         protected context : Ctx;
-    }
+    }*/
 //}

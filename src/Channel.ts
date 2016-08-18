@@ -7,6 +7,9 @@ export class Channel implements Target.ITarget {
     topic: Topic;
 
     constructor(display:string) {
+        // ':' will NEVER be allowed as a channel name (reserved character). remove it if it's in here
+        if (display[0] == ':') display = display.substr(1);
+
         this.display = display;
     }
 

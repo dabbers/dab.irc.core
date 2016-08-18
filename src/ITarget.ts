@@ -20,9 +20,9 @@ export namespace Target {
         }
         else {
             // Is user?
-            var nick = target.split('!');
+            let nick = target.split('!');
             if (nick[1]) {
-                var ident_host = nick[1].split('@');
+                let ident_host = nick[1].split('@');
 
                 return new User(nick[0], ident_host[0], ident_host[1]);
             }

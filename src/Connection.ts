@@ -7,7 +7,7 @@ import {ICloneable} from './ICloneable';
 import {Message} from './Message';
 import {ISocket} from './ISocket';
 
-var PriorityQueue = require('js-priority-queue');
+let PriorityQueue = require('js-priority-queue');
 
 class OutMessage {
     message : string;
@@ -41,7 +41,7 @@ export class Connection implements ICloneable, IModule<IConnectionContext> {
         this.context = context;
         context.connection = this;
 
-        var connectionEstablished = () => {
+        let connectionEstablished = () => {
              this.connectionEstablished = true;
              this.context.connectionEstablishedCallback(this);
         };
@@ -84,12 +84,12 @@ export class Connection implements ICloneable, IModule<IConnectionContext> {
     // http://stackoverflow.com/a/10012306/486058
     private onData(data : string) {
         this.backlog += data;
-        var n = this.backlog.indexOf('\n');
+        let n = this.backlog.indexOf('\n');
 
         // got a \n? emit one or more 'line' events
         while (~n) {
             
-            var res = this.backlog.substring(0, n);
+            let res = this.backlog.substring(0, n);
 
             if (this.backlog[n-1] == '\r') {
                 res = this.backlog.substring(0, n-1);
@@ -124,9 +124,9 @@ export class Connection implements ICloneable, IModule<IConnectionContext> {
                 this.raw(msg[0]);
             }
             else {
-                var date = new Date().getTime();
+                let date = new Date().getTime();
 
-                for(var i = 0; i < msg.length; i++) {
+                for(let i = 0; i < msg.length; i++) {
                     this.queue.queue(new OutMessage(msg[i], date+ (this.interval * i)));
                 }
             }
@@ -146,7 +146,6 @@ export class Connection implements ICloneable, IModule<IConnectionContext> {
     }
 
     private raw(msg:string) {
-        
         if (this.context.logSentMessages) console.log("=> ", msg);
 
         this.socket.write(msg + "\r\n");

@@ -8,7 +8,6 @@ __export(require('./Connection'));
 __export(require('./ITarget'));
 __export(require('./Message'));
 __export(require('./Mode'));
-__export(require('./ModuleHandler'));
 __export(require('./NodeSocket'));
 __export(require('./Topic'));
 __export(require('./User'));
