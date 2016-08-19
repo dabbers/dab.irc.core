@@ -16,7 +16,6 @@ var testSocket = (function () {
             this.callback = cb;
     };
     testSocket.prototype.write = function (data) {
-        console.log(this.callback, data);
         this.callback(":user WROTE " + data + "\r\n");
     };
     testSocket.prototype.disconnect = function () {
@@ -39,6 +38,8 @@ var SampleIRCContext = (function () {
             c.write("NICK " + _this.me.nick);
             c.write("USER " + _this.me.ident + " 8 * :" + _this.me.name);
         };
+        this.logSentMessages = false;
+        this.logReceivedMessages = false;
         this.me.name = "Real Name";
     }
     SampleIRCContext.prototype.createConnection = function (cb) {

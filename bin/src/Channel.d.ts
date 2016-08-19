@@ -3,7 +3,7 @@ import { Topic } from './Topic';
 export declare class Channel implements Target.ITarget {
     display: string;
     topic: Topic;
-    constructor(display: string);
+    constructor(display: string, tolower?: boolean);
     toString(): string;
     clone(): Target.ITarget;
     target: string;

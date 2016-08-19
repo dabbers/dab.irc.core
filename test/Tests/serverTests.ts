@@ -14,7 +14,6 @@ class testSocket implements Core.ISocket {
     }
 
     write(data:  string) : void {
-        console.log(this.callback, data);
         this.callback(":user WROTE " + data + "\r\n");
     }
     
@@ -60,8 +59,8 @@ class SampleIRCContext implements Core.IConnectionContext {
         c.write("USER " + this.me.ident + " 8 * :" + this.me.name);
     }
 
-    logSentMessages: boolean;
-    logReceivedMessages: boolean;
+    logSentMessages: boolean = false;
+    logReceivedMessages: boolean = false;
 }
 
 export class ServerTests extends tsUnit.TestClass {

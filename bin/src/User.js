@@ -20,7 +20,7 @@ var User = (function () {
     });
     Object.defineProperty(User.prototype, "display", {
         get: function () {
-            return this.nick + "!" + this.ident + "@" + this.host;
+            return this.nick + (this.ident ? "!" + this.ident + "@" + this.host : "");
         },
         enumerable: true,
         configurable: true
