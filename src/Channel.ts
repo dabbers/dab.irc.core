@@ -9,6 +9,7 @@ export class Channel implements Target.ITarget {
     constructor(display:string, tolower:boolean = true) {
         // ':' will NEVER be allowed as a channel name (reserved character). remove it if it's in here
         if (display[0] == ':') display = display.substr(1);
+
         this.display = display;
         if (tolower) this.display = this.display.toLocaleLowerCase();
     }
@@ -16,6 +17,7 @@ export class Channel implements Target.ITarget {
     toString() :string {
         return "[" + this.display + " Channel]";
     }
+    
     clone() : Target.ITarget {
         return this;
     }

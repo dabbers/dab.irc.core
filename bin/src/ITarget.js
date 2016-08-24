@@ -5,7 +5,7 @@ var BaseServer_1 = require('./BaseServer');
 var Target;
 (function (Target) {
     function ResolveTarget(target, channelPrefixes) {
-        if (channelPrefixes === void 0) { channelPrefixes = ["#"]; }
+        if (channelPrefixes === void 0) { channelPrefixes = ["#", "&"]; }
         if (target[0] == ":")
             target = target.substr(1);
         if (channelPrefixes.indexOf(target[0]) != -1) {

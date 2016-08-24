@@ -11,7 +11,7 @@ export namespace Target {
     }
 
     // Given a string, determine the type this is targeting (Server, Channel, or User)
-    export function ResolveTarget(target:string, channelPrefixes:string[] = ["#"]):ITarget {
+    export function ResolveTarget(target:string, channelPrefixes:string[] = ["#", "&"]):ITarget {
         if (target[0] == ":") target = target.substr(1);
 
         // Is channel?
