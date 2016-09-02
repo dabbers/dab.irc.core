@@ -1,3 +1,6 @@
+
+import {Target} from './ITarget';
+
 export enum ModeType {
     ChannelUser,
     Channel,
@@ -13,6 +16,7 @@ export class Mode {
     type: ModeType;
     change: ModeChangeType;
     argument: string;
+    target: Target.ITarget;
 
     get display():string {
         return (this.change == ModeChangeType.Adding ? "+" : "-") + 
