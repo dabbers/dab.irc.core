@@ -35,10 +35,13 @@ export class Connection implements ICloneable, IModule<IConnectionContext> {
     get connected() :boolean {
         return this.connectionEstablished;
     }
+    get context() : IConnectionContext {
+        return this._context;
+    }
 
     // Like a default constructor 
     init(context : IConnectionContext) : void {
-        this.context = context;
+        this._context = context;
         context.connection = this;
 
         let connectionEstablished = () => {
@@ -97,9 +100,11 @@ export class Connection implements ICloneable, IModule<IConnectionContext> {
 
             if (this.context.logReceivedMessages) console.log("<= ", res);
             
-            this.context.dataCallback( new Message(res) );
-
+            // Clear the backlog of the current message first. We may get another 
+            // callback in the middle of our current msg, when using non-async endpoint (ie tests)
             this.backlog = this.backlog.substring(n + 1);
+
+            this.context.dataCallback( new Message(res, this.context.channelPrefixes) );
             n = this.backlog.indexOf('\n');
         }
 
@@ -151,7 +156,7 @@ export class Connection implements ICloneable, IModule<IConnectionContext> {
         this.socket.write(msg + "\r\n");
     }
 
-    private context:IConnectionContext;
+    private _context:IConnectionContext;
 
     private socket : ISocket;
     private connectionEstablished : boolean = false;

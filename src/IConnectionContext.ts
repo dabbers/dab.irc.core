@@ -22,4 +22,5 @@ export interface IConnectionContext {
     
     logSentMessages: boolean;
     logReceivedMessages: boolean;
+    channelPrefixes:string[];
 }

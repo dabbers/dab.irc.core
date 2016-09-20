@@ -52,7 +52,7 @@ export class Message implements ICloneable {
             this._messageTags= line.messageTags;
         }
         else {
-            this._tokenized = line.split(' ');
+            this._tokenized = line.toString().split(' ');
             this._raw = line;
             this._timestamp = new Date();
 

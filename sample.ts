@@ -49,6 +49,7 @@ class SampleIRCContext implements IConnectionContext {
 
     logSentMessages: boolean;
     logReceivedMessages: boolean;
+    channelPrefixes:string[];
 }
 
 

@@ -16,6 +16,7 @@ export class User implements Target.ITarget {
         this.nick = nick;
         this.ident = ident;
         this.host = host;
+        this.modes = [];
     }
 
     toString() :string {
