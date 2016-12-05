@@ -20,7 +20,7 @@ export class User implements Target.ITarget {
     }
 
     toString() :string {
-        return "[" + this.display + " User]";
+        return "[User " + this.display + "]";
     }
     
     clone() : Target.ITarget {

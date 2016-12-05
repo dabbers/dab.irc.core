@@ -21,6 +21,6 @@
   "license": "MIT",
   "dependencies": {
     "js-priority-queue": "^0.1.5",
-    "tsunit.external": "^2.0.1"
+    "tsunit.external": "^2.0.10"
   }
 }

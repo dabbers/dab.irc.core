@@ -16,7 +16,7 @@ export class Mode {
     type: ModeType;
     change: ModeChangeType;
     argument: string;
-    target: Target.ITarget;
+    destination: Target.ITarget;
 
     get display():string {
         return (this.change == ModeChangeType.Adding ? "+" : "-") + 
@@ -25,7 +25,7 @@ export class Mode {
 
     isEqual(mode:Mode, matchChange: boolean = false) : boolean {
         return (mode.character == this.character) && (mode.argument == this.argument) && 
-            (this.target.display == mode.target.display) && (!matchChange || this.change == mode.change) &&
+            (this.destination.display == mode.destination.display) && (!matchChange || this.change == mode.change) &&
             (this.type == mode.type);
     }
 

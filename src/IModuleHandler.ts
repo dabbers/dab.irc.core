@@ -1,7 +1,7 @@
 import {IModule} from './IModule';
 
 //export namespace ModuleHandler {
-    interface ModuleDictionary<Ctx> {
+    export interface ModuleDictionary<Ctx> {
         [name: string] : IModule<Ctx>;
     }
 
@@ -10,9 +10,8 @@ import {IModule} from './IModule';
     }
 
     export interface IModuleHandler<Ctx> {
-        load(name: string) : IModuleHandler<Ctx>;
+        load(name: string, noResume?:boolean) : IModuleHandler<Ctx>;
         unload(name: string, persist: boolean) : IModuleHandler<Ctx>;
-
     }
 
     /*export class ModuleHandler<Ctx> implements IModuleHandler<Ctx> {

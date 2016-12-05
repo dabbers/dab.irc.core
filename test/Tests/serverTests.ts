@@ -61,6 +61,7 @@ class SampleIRCContext implements Core.IConnectionContext {
 
     logSentMessages: boolean = false;
     logReceivedMessages: boolean = false;
+    channelPrefixes: string[];
 }
 
 export class ServerTests extends tsUnit.TestClass {

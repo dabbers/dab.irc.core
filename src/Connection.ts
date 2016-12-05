@@ -40,9 +40,8 @@ export class Connection implements ICloneable, IModule<IConnectionContext> {
     }
 
     // Like a default constructor 
-    init(context : IConnectionContext) : void {
+    init(context : IConnectionContext, noResume?:boolean) : void {
         this._context = context;
-        context.connection = this;
 
         let connectionEstablished = () => {
              this.connectionEstablished = true;
@@ -58,9 +57,9 @@ export class Connection implements ICloneable, IModule<IConnectionContext> {
     }
 
     // Like a copy constructor
-    resume(state : any) : void {
+    resume(context : IConnectionContext, state : any) : void {
         this.socket = state.socket;
-        this.context = state.context;
+        this._context = state.context;
         this.queue = state.queue;
         this.connectionEstablished = state.connectionEstablished;
     }

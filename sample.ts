@@ -43,6 +43,7 @@ class SampleIRCContext implements IConnectionContext {
     }
 
     connectionEstablishedCallback: (c:Connection) => any = (c:Connection) => {  
+        this.connection = c;
         c.write("NICK " + this.me.nick);
         c.write("USER " + this.me.ident + " 8 * :" + this.me.name);
     }

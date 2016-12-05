@@ -114,18 +114,26 @@ export class Message implements ICloneable {
     clone() : ICloneable {
         let cloneObj:Message = new (this.constructor());
         
-        cloneObj.tokenized = JSON.parse(JSON.stringify(this.tokenized));
-        cloneObj.from =  this.from.clone();   
-        cloneObj.command = this.command;
-        cloneObj.firstWord = this.firstWord;
-        cloneObj.timestamp = this.timestamp;
-        cloneObj.raw = this.raw;
+        cloneObj._tokenized = JSON.parse(JSON.stringify(this.tokenized));
+        cloneObj._from =  this.from.clone();   
+        cloneObj._command = this.command;
+        cloneObj._firstWord = this.firstWord;
+        cloneObj._timestamp = this.timestamp;
+        cloneObj._raw = this.raw;
             
         return cloneObj;
     }
 
     toString() :string {
         return "[" + this.command + " Message]";
+    }
+
+    public updateFromReference(from:Target.ITarget) {
+        this._from = from;
+    }
+    
+    public updateCommandString(cmd: string) {
+        this._command = cmd;
     }
     
     // The string separated by spaces

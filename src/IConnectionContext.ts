@@ -6,7 +6,7 @@ import tls = require('tls');
 import {ISocket} from './ISocket';
 
 export interface IConnectionContext {
-    connection: Connection;
+    //connection: Connection;
     me: User;
     
     host: string;

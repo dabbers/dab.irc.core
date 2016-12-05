@@ -1,7 +1,6 @@
 import {Target} from './ITarget';
 
 export class BaseServer implements Target.ITarget {
-    
     host: string;
     constructor(host:string) {
         this.host = host;

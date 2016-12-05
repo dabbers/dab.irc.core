@@ -22,6 +22,7 @@ import * as Core from '../../src/';
              this.isTrue(m.from instanceof Core.User, "from should be from user");
              this.areIdentical("Hello", m.firstWord);
              this.areIdentical("Hello world", m.message);
+             throw new Error("HIIIIII");
         }
 
         privmsgFromServerTestSimple() {
