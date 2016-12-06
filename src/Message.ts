@@ -1,10 +1,6 @@
 import {ICloneable} from './ICloneable';
 import {Target} from './ITarget';
 
-export interface MessageTagDictionary {
-    [key: string] : string;
-}
-
 // A message object.
 export class Message implements ICloneable {
 
@@ -35,7 +31,7 @@ export class Message implements ICloneable {
     get raw(): string {
         return this._raw;
     }
-    get messageTags() : MessageTagDictionary {
+    get messageTags() : { [key: string] : string;} {
         return this._messageTags;
     }
     
@@ -153,6 +149,6 @@ export class Message implements ICloneable {
     // The full raw line
     protected _raw: string;
 
-    protected _messageTags: MessageTagDictionary = {};
+    protected _messageTags: { [key: string] : string;} = {};
 
 }

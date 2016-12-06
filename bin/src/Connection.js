@@ -66,6 +66,16 @@ class Connection {
             this.socket.disconnect();
         }
     }
+    tick() {
+        if (this.queue.length > 0) {
+            let msg = this.queue.dequeue().message;
+            this.raw(msg);
+        }
+    }
+    clear() {
+        while (this.queue.length > 0)
+            this.queue.dequeue();
+    }
     onData(data) {
         this.backlog += data;
         let n = this.backlog.indexOf('\n');

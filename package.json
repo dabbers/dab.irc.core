@@ -20,6 +20,7 @@
   "author": "dab",
   "license": "MIT",
   "dependencies": {
+    "@types/node": "0.0.2",
     "js-priority-queue": "^0.1.5",
     "tsunit.external": "^2.0.10"
   }

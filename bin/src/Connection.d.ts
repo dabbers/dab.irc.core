@@ -12,6 +12,8 @@ export declare class Connection implements ICloneable, IModule<IConnectionContex
     resume(context: IConnectionContext, state: any): void;
     uninit(): any;
     disconnect(): void;
+    tick(): void;
+    clear(): void;
     private onData(data);
     write(msg: string | string[] | any): void;
     clone(): ICloneable;

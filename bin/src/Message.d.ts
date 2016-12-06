@@ -1,8 +1,5 @@
 import { ICloneable } from './ICloneable';
 import { Target } from './ITarget';
-export interface MessageTagDictionary {
-    [key: string]: string;
-}
 export declare class Message implements ICloneable {
     readonly tokenized: string[];
     readonly from: Target.ITarget;
@@ -11,7 +8,9 @@ export declare class Message implements ICloneable {
     readonly message: string;
     readonly timestamp: Date;
     readonly raw: string;
-    readonly messageTags: MessageTagDictionary;
+    readonly messageTags: {
+        [key: string]: string;
+    };
     constructor(line: string | Message, channelPrefixes?: string[]);
     clone(): ICloneable;
     toString(): string;
@@ -24,5 +23,7 @@ export declare class Message implements ICloneable {
     protected _message: string;
     protected _timestamp: Date;
     protected _raw: string;
-    protected _messageTags: MessageTagDictionary;
+    protected _messageTags: {
+        [key: string]: string;
+    };
 }

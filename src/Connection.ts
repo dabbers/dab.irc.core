@@ -77,9 +77,20 @@ export class Connection implements ICloneable, IModule<IConnectionContext> {
     disconnect() : void {
         
         if (this.connectionEstablished) {
-
             this.socket.disconnect();
         }
+    }
+
+    tick() : void {
+        if (this.queue.length > 0) {
+            let msg = this.queue.dequeue().message;
+
+            this.raw(msg);
+        }
+    }
+
+    clear() : void {
+        while(this.queue.length > 0) this.queue.dequeue();
     }
 
 
@@ -106,7 +117,6 @@ export class Connection implements ICloneable, IModule<IConnectionContext> {
             this.context.dataCallback( new Message(res, this.context.channelPrefixes) );
             n = this.backlog.indexOf('\n');
         }
-
     }
 
 

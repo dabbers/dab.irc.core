@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import net = require('net');
 import tls = require('tls');
 import { ISocket } from './ISocket';
