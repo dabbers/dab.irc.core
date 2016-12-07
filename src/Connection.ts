@@ -18,16 +18,21 @@ class OutMessage {
         this.timestamp = ts;
     }
 }
+const defaultStuff = {
+    host: "",
+    port: 0,
+    ssl: false
+}
 
 export class Connection implements ICloneable, IModule<IConnectionContext> {
     get host() :string { 
-        return this.context.host;
+        return (this.context || defaultStuff).host;
     }
     get port() :number { 
-        return this.context.port;
+        return (this.context || defaultStuff).port;
     }
     get ssl() :boolean { 
-        return this.context.ssl;
+        return (this.context || defaultStuff).ssl;
     }
     get display() :string {
         return this.toString();
@@ -156,10 +161,16 @@ export class Connection implements ICloneable, IModule<IConnectionContext> {
     }
 
     toString() :string {
-        return "[" + this.context.host + ":" + (this.context.ssl ? "+" : "") + this.context.port.toString() +" Connection]";
+        let c = (this.context || defaultStuff);
+        return "[" + c.host + ":" + (c.ssl ? "+" : "") + c.port.toString() +" Connection]";
     }
 
     private raw(msg:string) {
+        if (!this.context) {
+            this.queue.queue(new OutMessage(<string>msg));
+            return;
+        }
+
         if (this.context.logSentMessages) console.log("=> ", msg);
 
         this.socket.write(msg + "\r\n");

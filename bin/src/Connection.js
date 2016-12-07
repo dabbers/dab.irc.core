@@ -7,6 +7,11 @@ class OutMessage {
         this.timestamp = ts;
     }
 }
+const defaultStuff = {
+    host: "",
+    port: 0,
+    ssl: false
+};
 class Connection {
     constructor() {
         this.connectionEstablished = false;
@@ -18,13 +23,13 @@ class Connection {
         this.backlog = "";
     }
     get host() {
-        return this.context.host;
+        return (this.context || defaultStuff).host;
     }
     get port() {
-        return this.context.port;
+        return (this.context || defaultStuff).port;
     }
     get ssl() {
-        return this.context.ssl;
+        return (this.context || defaultStuff).ssl;
     }
     get display() {
         return this.toString();
@@ -119,9 +124,14 @@ class Connection {
         return this;
     }
     toString() {
-        return "[" + this.context.host + ":" + (this.context.ssl ? "+" : "") + this.context.port.toString() + " Connection]";
+        let c = (this.context || defaultStuff);
+        return "[" + c.host + ":" + (c.ssl ? "+" : "") + c.port.toString() + " Connection]";
     }
     raw(msg) {
+        if (!this.context) {
+            this.queue.queue(new OutMessage(msg));
+            return;
+        }
         if (this.context.logSentMessages)
             console.log("=> ", msg);
         this.socket.write(msg + "\r\n");
