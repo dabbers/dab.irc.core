@@ -85,10 +85,7 @@ class Connection {
         this.backlog += data;
         let n = this.backlog.indexOf('\n');
         while (~n) {
-            let res = this.backlog.substring(0, n);
-            if (this.backlog[n - 1] == '\r') {
-                res = this.backlog.substring(0, n - 1);
-            }
+            let res = this.backlog.substring(0, n).trim();
             if (this.context.logReceivedMessages)
                 console.log("<= ", res);
             this.backlog = this.backlog.substring(n + 1);
